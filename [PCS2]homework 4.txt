@@ -1,0 +1,403 @@
+homework4
+
+###dna
+
+string  = "GCTGACATCCACGATGGCTTAGATTCTTCTGTTTCAATGCTCACCTCTATGGACCCTGAGTCGAAACT"
+string = string.upper()
+
+a_s = len([x for x in string if x=="A"])
+
+c_s = len([x for x in string if x=="C"])
+
+g_s = len([x for x in string if x=="G"])
+
+t_s = len([x for x in string if x=="T"])
+
+print(a_s, c_s,  g_s, t_s)
+
+
+###rna
+
+T = str('CGTAATTGGCCACACCGGTTAAGAGTCTGCTCTCCTCCTAGTGCAAACCCTGGTCACAGCTGAACAAAACCCGTTCGTAGTTCAGTGAGGACACGAAAGTCTATCGAGACTGGTAGGCTTAGCCGTGGCGTAATGAAGCGTCGGGTCGCTTCTGCGGGTCGAGCCTAACTAGATGAGCTGCTCGTCTATCTACGCTCCCACGGCCAGCCTGATACTCGATTCCCGTTAAGCGTGTCACCCCGATAAATGTTAAACCCGATACCAAACGGAGCGGAAAAACATGATCCCTTTATATTACTCACTTACAGAGGAAGCGGGCTTTAGAGGGGTTAGTTTTAATCTCTGTGTATTCTATGCTAAGCGGCGAGGATCTAGTGAAAACCACGGCAGATCCGTAAAGGGGCATTGAGTACAGTATACCTATCTTATAGCCAACCAATCCTGTGAAGTGTGTGGTAGATTTCACAAACGAAGGAAGCTTTATGCTGACCCTACAGGCCGAACCCGCCGTAAAATACCCTGAACAGTAAGTGAATCTTCAGTGGTAAGCCTGCAGGCCCAATTGTCTATCTCACATATTGTCAGCCCAATCACGGGTCCCCTGACTGTTTCCTAGCAACTACCAGATGGTAGCTTCTGACTACGCGAACTTATAACCCCCACCTTACGCAATTTAAGTGATGTAGATTAGTAAAATACCGTCAACAGAGGGTGTATTGATTTGAGTTATAAGGCAAAGTTCGCAATGGCAGAGTTCCAACCCACTGACTCTACTAGACCAGTTTGGTAGGGGAGTTCATTCGTTGCCAGTGATGCTCGATTATTGGTCAGTACTACTACCGGCTGTCCCACCACGGCAGGGCATACTCATCAGGGTGCGAACGGAAGATATCTGTAATTCATCTCTGTG')
+t_list = []
+
+for x in T:
+    if x == "T":
+       t_list.append("U")
+    elif x != "T":
+         t_list.append(x)
+t = ''.join(t_list)
+print(t)
+
+
+###revc
+
+
+def reverseStr(string):
+    """ Reverse string """
+    return string[::-1]
+
+
+def complementStrand(string):
+    """ Complement a Strand of DNA """
+
+    # New output string
+    newStr = ""
+
+
+    # Iterate over reversed string
+    for c in string:
+        if c == "A":
+            newStr += "T"
+        elif c == "T":
+            newStr += "A"
+        elif c == "C":
+            newStr += "G"
+        elif c == "G":
+            newStr += "C"
+    return newStr
+
+testString = "GTATCACCTAAACGCATAATATCCTGCGTTGTTATCATTGCTATCCCATGCGCGCAACTCCCATATGTGGCCTGAAGATTCGTAGTGGATATACCGCCGGGAGAACGCTTCACAATCATACCTATCCTGCGGAATAGGTCCACCACATCGTAACTCAGTGGGGACCTGCAAACGAGTATTTTCTAGATGCCAATGTATCGTCGTGTCTGCAGAAGCAAGGGTCGTAGTGAGTATCTTACCGTTCACCGATTGATCCTTTGCGAAAGTGCCTACCTTAGCGCCGTAATTATGTTCACTATAGGCACAAGTTCCTGAGCCCCTTTGTGTAGAGCTTATCCCTATTCGGCCCATAGACGCGAGCAAACATATGGCCAATTGTTTCTTACATGCAGGGCCCGGAGTGGGCGAAAGTCCAGAGACATTGGAACATTGCATCTGTAACTCAACACACCACATTCACGAACAGCAGGGCGTTTGATTCAAGGATGGTATTACTGAGAGGAGTCAAGAGTTAAAGGAACCCAGTATTAACACTCCGAATTCTTCAATACTGCTGCCATTAGCCGGGCGGGCGGGACCTCTGAACGGAATGAGGGAGCTGGCAGAAGGAGGTTTATTGAAAATGTATGTAGTGGTCCATCCCGAGTCCTACCAGGCGCGTTCTGTCTGCGGAGGACGCCTGGTGCTGATGTCTAAAGCTGAGATAGCTATTAGCAAGAATGGTCATGATCACGGTTTAGTCCGGCGTCGACACTATCAGGCACGGACGTCAATACATGACTTCCGAAGGCTTAAGCGTCGGACCTTAGGGGTACGGAAAGGCTCGTACGTGGTCCTGATAGAAGGGCATTCAAACCTTACTGAATGTCCTTTAACGGTGCCGGCAGGTCAAAACAGAA"
+reverse_string = reverseStr(testString)
+print(complementStrand(reverse_string))
+
+
+###gc
+
+def gc(x):
+    geneDict = {}
+    geneName = 'x'
+    fastaSeq = ''
+
+    for line in x:
+        if line[0] == '>':
+            geneDict.update({geneName: fastaSeq})
+            geneName = line[1:]
+            fastaSeq = ''
+        else:
+            fastaSeq += line
+    geneDict.update({geneName: fastaSeq})
+    geneDict.pop('x')
+    seq = list(geneDict.values())
+    nam = list(geneDict.keys())
+    freq = []
+    fin = []
+    for j in seq:
+        freq.append(((j.count('G')+j.count('C'))/len(j))*100)
+    for z in range(len(freq)):
+        if freq[z]==max(freq):
+            fin.append(nam[z])
+            fin.append(max(freq))
+            return(fin)
+x = list(map(str, input().split()))
+print(*gc(x), sep='\n')
+
+
+### subs
+def DNAsub(x, y):
+    lst = []
+    for i in range(len(x)):
+        if x.startswith(y, i):
+            lst.append(i+1)
+    return(lst)
+x = input()
+y = input()
+print(*DNAsub(x, y))
+
+
+###revp
+
+import itertools
+def revp(x):
+    geneDict = {}
+    geneName = 'x'
+    fastaSeq = ''
+    for line in x:
+        if line[0] == '>':
+            geneDict.update({geneName: fastaSeq})
+            geneName = line[1:]
+            fastaSeq = ''
+        else:
+            fastaSeq += line
+    geneDict.update({geneName: fastaSeq})
+    geneDict.pop('x')
+    DNAx = list(geneDict.values())
+    DNA = ''.join(DNAx)
+    DNAy = []
+    for o in DNAx:
+        for oo in o:
+            DNAy.append(oo)
+    minL = 4
+    maxL = 12
+    substrings = []
+    resubstrings = []
+    for j in range(minL, maxL+1):
+        for jj in range(0, len(DNAy)-j+1):
+            substring = DNAy[jj:jj+j]
+            substringLocation = jj+1
+            substrings.append([''.join(substring), substringLocation, len(substring)])
+            resubstrings.append(substring)
+    l2 = [''.join(g) for g in resubstrings]
+    l3 = [gg.replace('T', 'a').replace('A','t').replace('C', 'g').replace('G', 'c').upper()[::-1] for gg in l2]
+    lfin = []
+    for k in range(len(l2)):
+        if l2[k]==l3[k]:
+            lfin.append(l2[k])
+    fin2 = []
+    for p in lfin:
+        for u in substrings:
+            if p in u:
+                fin2.append(u)
+    for uu in fin2:
+        if fin2.count(uu)>1:
+            fin2.remove(uu)
+    fin3 = []
+    for v in fin2:
+        fin3.append(v[1:])
+    fin = sorted(fin3)
+    FIN = list(fin for fin,_ in itertools.groupby(fin))
+    for f in FIN:
+        print(*f)
+    return('')
+
+x = list(map(str, input().split()))
+print(revp(x))
+
+###fib
+
+def fib(x, y):
+    if x==0:
+        return(0)
+    elif x==1:
+        return(1)
+    else:
+        return(fib(x-1, y)+y*fib(x-2, y))
+
+x = int(input())
+y = int(input())
+print(fib(x, y))
+
+
+###lcsm
+
+def lcsm(x):
+    geneDict = {}
+    geneName = 'x'
+    fastaSeq = ''
+    for seqline in x:
+        if seqline[0] == '>':
+            geneDict.update({geneName: fastaSeq})
+            geneName = seqline[1:]
+            fastaSeq = ''
+        else:
+            fastaSeq += seqline
+    geneDict.update({geneName: fastaSeq})
+    geneDict.pop('x')
+    seq = list(geneDict.values())
+    lcs = ''
+    if len(seq) > 1 and len(seq[0]) > 0:
+        for i in range(len(seq[0])):
+            for j in range(len(seq[0])-i+1):
+                if j > len(lcs) and all(seq[0][i:i+j] in y for y in seq):
+                    lcs = seq[0][i:i+j]
+    return(lcs)
+x = list(map(str, input().split()))
+print(lcsm(x))
+
+
+###splc
+
+def splc(x, codon):
+    geneDict = {}
+    geneName = 'x'
+    fastaSeq = ''
+    for seqline in x:
+        if seqline[0] == '>':
+            geneDict.update({geneName: fastaSeq})
+            geneName = seqline[1:]
+            fastaSeq = ''
+        else:
+            fastaSeq += seqline
+    geneDict.update({geneName: fastaSeq})
+    geneDict.pop('x')
+    seq = list(geneDict.values())
+    seq1 = seq[0]
+    introns = seq[1:]
+    for i in introns:
+        if i in seq1:
+            seq1 = seq1.replace(i,'')
+        prot = []
+        y = [seq1[xx:xx+3] for xx in range(0, len(seq1), 3)]
+        for j in y:
+            prot.append(codon.get(j))
+            if codon.get(j) == 'Stop':
+                break
+    prot.remove('Stop')
+    return(''.join(map(str,prot)))
+x = list(map(str, input().split()))
+codon={  'TTT': 'F',     'CTT': 'L',     'ATT': 'I',     'GTT': 'V',
+    'TTC': 'F',     'CTC': 'L',     'ATC': 'I',     'GTC': 'V',
+    'TTA': 'L',     'CTA': 'L',     'ATA': 'I',     'GTA': 'V',
+    'TTG': 'L',     'CTG': 'L',     'ATG': 'M',     'GTG': 'V',
+    'TCT': 'S',     'CCT': 'P',     'ACT': 'T',     'GCT': 'A',
+    'TCC': 'S',     'CCC': 'P',     'ACC': 'T',     'GCC': 'A',
+    'TCA': 'S',     'CCA': 'P',     'ACA': 'T',     'GCA': 'A',
+    'TCG': 'S',     'CCG': 'P',     'ACG': 'T',     'GCG': 'A',
+    'TAT': 'Y',     'CAT': 'H',     'AAT': 'N',     'GAT': 'D',
+    'TAC': 'Y',     'CAC': 'H',     'AAC': 'N',     'GAC': 'D',
+    'TAA': 'Stop',     'CAA': 'Q',     'AAA': 'K',     'GAA': 'E',
+    'TAG': 'Stop',     'CAG': 'Q',     'AAG': 'K',     'GAG': 'E',
+    'TGT': 'C',     'CGT': 'R',     'AGT': 'S',     'GGT': 'G',
+    'TGC': 'C',     'CGC': 'R',     'AGC': 'S',     'GGC': 'G',
+    'TGA': 'Stop',     'CGA': 'R',     'AGA': 'R',     'GGA': 'G',
+    'TGG': 'W',     'CGG': 'R',     'AGG': 'R',     'GGG': 'G'}
+
+print(splc(x, codon))
+
+
+
+###lexf
+
+
+import itertools
+def lexf(x, l):
+    y = sorted(x)
+    perms = itertools.product(y,repeat=l)
+    for i in perms:
+        print(''.join(i))
+    return('')
+x = list(map(str, input().split()))
+l = int(input())
+print(lexf(x, l), sep='\n')
+
+
+
+###lgis
+
+def lgis(x):
+    lenI = len(x)
+    P = [0]*lenI
+    M = [0]*(lenI+1)
+    L = 0
+    for i in range(lenI):
+        lo = 1
+        hi = L
+        while lo <= hi:
+            mid = (lo+hi)//2
+            if (x[M[mid]] < x[i]):
+                lo = mid+1
+            else:
+                hi = mid-1
+ 
+        newL = lo
+        P[i] = M[newL-1]
+        M[newL] = i
+ 
+        if (newL > L):
+            L = newL
+    S = []
+    k = M[L]
+    for i in range(L-1, -1, -1):
+        S.append(x[k])
+        k = P[k]
+    y = x[::-1]
+    lenD = len(y)
+    PP = [0]*lenD
+    MM = [0]*(lenD+1)
+    LL = 0
+
+    for ii in range(lenD):
+        llo = 1
+        hhi = LL
+        while llo <= hhi:
+            mmid = (llo+hhi)//2
+            if (y[MM[mmid]] < y[ii]):
+                llo = mmid+1
+            else:
+                hhi = mmid-1
+ 
+        nnewL = llo
+        PP[ii] = MM[nnewL-1]
+        MM[nnewL] = ii
+ 
+        if (nnewL > LL):
+            LL = nnewL
+    SS = []
+    kk = MM[LL]
+    for ii in range(LL-1, -1, -1):
+        SS.append(y[kk])
+        kk = PP[kk]
+    fin = [S[::-1], SS]
+
+    for j in fin:
+        print(*j)
+    return('')
+x = list(map(int, input().split()))
+print(lgis(x))
+
+
+###cons
+
+import os
+os.getcwd()
+os.chdir('C:\\Users\\Amin\\Downloads')
+
+def print_profile(nt, lst):
+    print(nt, ": ", sep = '', end = '')
+    for item in lst:
+        print(item, end = ' ')
+    print()
+
+f = open("rosalind_cons.txt")
+lst = f.read()
+f.close()
+
+lst = lst.replace('\n', '')
+lst = lst.split('>')
+dna = list()
+
+for item in lst:
+    if (len(item) < 1):
+        continue
+    v = item[13::]
+    dna.append(v)
+
+dnaLen = len(dna[0])
+profA = []
+profC = []
+profG = []
+profT = []
+for i in range(0, dnaLen):
+    profA.insert(i, 0)
+    profC.insert(i, 0)
+    profG.insert(i, 0)
+    profT.insert(i, 0)
+
+for i in range(0, dnaLen):
+    for j in range(0, len(dna)):
+        if (dna[j][i] == 'A'):
+            profA[i] += 1
+        elif (dna[j][i] == 'C'):
+            profC[i] += 1
+        elif (dna[j][i] == 'G'):
+            profG[i] += 1
+        elif (dna[j][i] == 'T'):
+            profT[i] += 1
+
+cons = str()
+for i in range(0, dnaLen):
+    x = max([profA[i], profC[i], profG[i], profT[i]])
+    if (profA[i] == x):
+        cons += "A"
+    elif (profC[i] == x):
+        cons += "C"
+    elif (profG[i] == x):
+        cons += "G"
+    elif (profT[i] == x):
+        cons += "T"
+
+print(cons)
+print_profile("A", profA)
+print_profile("C", profC)
+print_profile("G", profG)
+print_profile("T", profT)
